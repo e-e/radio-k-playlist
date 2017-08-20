@@ -1,0 +1,17 @@
+{
+  "name": "radio-k",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Eric Ellingson <ellingsonster@gmail.com> (http://xuomo.com)",
+  "license": "MIT",
+  "dependencies": {
+    "after-load": "^1.0.4",
+    "body-parser": "^1.17.2",
+    "cheerio": "^1.0.0-rc.2",
+    "express": "^4.15.4"
+  }
+}

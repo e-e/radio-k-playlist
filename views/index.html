@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>radio-k</title>
+	<link rel="stylesheet" type="text/css" href="/assets/css/main.css">
+</head>
+<body>
+<div id="app" v-cloak>
+	<form>
+		<input v-model="listDate">
+	</form>
+	<div id="player" v-show="showVideo">
+		<iframe width="560" height="315" :src="videoUrl" frameborder="0" allowfullscreen></iframe>
+	</div>
+	<div class="list">
+		<ul v-for="song in songs">
+			<li @click="loadVideo(song)">
+				<div class="played-at">{{ song.time }}</div>
+				<div class="info">
+					<div>{{ song.artist }}</div>
+					<div>{{ song.name }}</div>
+					<div>{{ song.album }}</div>
+				</div>
+			</li>
+		</ul>
+	</div>
+</div>
+<script src="https://apis.google.com/js/api.js"></script>
+<script src="/assets/js/vue.js"></script>
+<script src="/assets/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
+
+body {
+	font-family: "Roboto", sans-serif;
+}
+.list ul {
+	margin:0;
+	padding:0;
+}
+.list ul li {
+	list-style-type: none;
+	border:1px solid rgba(100, 100, 100, 0.3);
+	border-bottom:none;
+	/*padding:10px;*/
+	padding:0px;
+	cursor: pointer;
+}
+.list ul li:hover {
+	background-color:rgba(150, 150, 150, 0.2);
+}
+.list ul:last-child {
+	list-style-type: none;
+	border:1px solid rgba(100, 100, 100, 0.3);
+}
+
+.list ul li .played-at {
+	padding:10px;
+	border-bottom:1px dotted rgba(100, 100, 100, 0.3);
+}
+.list ul li .info {
+	padding:10px;
+}
+
+
+input {
+	margin-bottom: 15px;
+	padding:8px;
+	border:1px solid rgba(0, 100, 100, 0.5);
+	border-radius: 4px;
+}
