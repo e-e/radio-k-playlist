@@ -39,3 +39,37 @@ input {
 	border:1px solid rgba(0, 100, 100, 0.5);
 	border-radius: 4px;
 }
+
+#player {
+	position: fixed;
+	top:20px;
+	right:20px;
+	width:300px;
+	padding:15px;
+	background-color:white;
+	border:1px solid rgba(100, 100, 100, 0.2);
+	border-radius:4px;
+}
+#player iframe {
+	border-radius:4px;
+}
+
+
+
+.info .artist {
+	font-weight: bold;
+}
+.info .name {
+
+}
+.info .name::before {
+	content: '"';
+}
+.info .name::after {
+	content: '"';
+}
+.info .album {
+	color:rgb(100, 100, 100);
+	font-weight:lighter;
+	font-style: italic;
+}

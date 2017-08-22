@@ -12,6 +12,7 @@ function run() {
 		data: {
 			listDate: "",
 			songs: [],
+			songIndex: 0,
 			videoUrl: "",
 		},
 		created() {
@@ -83,7 +84,8 @@ function run() {
 			},
 
 			// https://www.youtube.com/embed/s-5dsCJNCxg
-			loadVideo(song) {
+			loadVideo(song, index) {
+				this.songIndex = index;
 				let url = `https://www.googleapis.com/youtube/v3/search?part=snippet&key=${youtubeAPIKey}&q=${encodeURIComponent(`${song.name} ${song.artist}`)}`;
 				this.get(url).then(response => {
 					let data = JSON.parse(response.responseText);
@@ -95,6 +97,12 @@ function run() {
 
 
 				}).catch(err => console.log("trouble getting youtube search...", err));
+			},
+			nextSong() {
+				let nextIndex = this.songIndex + 1 >= this.songs.length ? 0 : this.songIndex + 1;
+				let song = this.songs[nextIndex];
+				this.songIndex = nextIndex;
+				this.loadVideo(song, this.songIndex);
 			}
 		},
 		watch: {

@@ -7,19 +7,27 @@
 <body>
 <div id="app" v-cloak>
 	<form>
-		<input v-model="listDate">
+		<input v-model="listDate"><span>{{ songIndex }}</span>
 	</form>
 	<div id="player" v-show="showVideo">
-		<iframe width="560" height="315" :src="videoUrl" frameborder="0" allowfullscreen></iframe>
+		<div id="close-wrap">
+			<button id="close">close</button>
+		</div>
+		<iframe width="300" height="169" :src="videoUrl" frameborder="0" allowfullscreen></iframe>
+		<div id="controls">
+			<button id="prev">prev</button>
+			<button id="playpause">play</button>
+			<button id="next" @click="nextSong">next</button>
+		</div>
 	</div>
 	<div class="list">
-		<ul v-for="song in songs">
-			<li @click="loadVideo(song)">
+		<ul v-for="(song, index) in songs">
+			<li @click="loadVideo(song, index)">
 				<div class="played-at">{{ song.time }}</div>
 				<div class="info">
-					<div>{{ song.artist }}</div>
-					<div>{{ song.name }}</div>
-					<div>{{ song.album }}</div>
+					<div class="artist">{{ song.artist }}</div>
+					<div class="name">{{ song.name }}</div>
+					<div class="album">{{ song.album }}</div>
 				</div>
 			</li>
 		</ul>
