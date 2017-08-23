@@ -23,7 +23,7 @@ function parseSongData($, $song) {
 	};
 	return data;
 }
-function getSongs(html) {
+function songs(html) {
 	// console.log("html", html);
 	let $ = cheerio.load(html);
 	let $songs = $(".songblock");
@@ -37,5 +37,5 @@ function getSongs(html) {
 
 
 module.exports ={
-	getSongs,
+	songs,
 }

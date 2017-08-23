@@ -1,83 +1,28 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto');
 
+.song-list {
+	overflow-y:scroll;
+	height:90vh;
+}
 
-body {
-	font-family: "Roboto", sans-serif;
-}
-.list ul {
-	margin:0;
-	padding:0;
-}
-.list ul li {
-	list-style-type: none;
-	border:1px solid rgba(100, 100, 100, 0.3);
-	border-bottom:none;
-	/*padding:10px;*/
-	padding:0px;
+.song-list .list-group-item {
 	cursor: pointer;
 }
-.list ul li:hover {
-	background-color:rgba(150, 150, 150, 0.2);
-}
-.list ul:last-child {
-	list-style-type: none;
-	border:1px solid rgba(100, 100, 100, 0.3);
+.song-list .list-group-item:hover {
+	background-color:rgba(100, 100, 100, 0.1);
 }
 
-/*.list ul li .played-at {
-	padding:10px;
-	border-bottom:1px dotted rgba(100, 100, 100, 0.3);
-}*/
-.list ul li {
-	position: relative;
-}
-.list ul li .played-at {
-	position: absolute;
-	top: 5px;
-	right:5px;
-}
-.list ul li .info {
-	padding:10px;
-}
-
-
-input {
-	margin-bottom: 15px;
-	padding:8px;
-	border:1px solid rgba(0, 100, 100, 0.5);
-	border-radius: 4px;
-}
-
-#player {
-	position: fixed;
-	top:20px;
-	right:20px;
-	width:300px;
-	padding:15px;
-	background-color:white;
-	border:1px solid rgba(100, 100, 100, 0.2);
-	border-radius:4px;
-}
-#player iframe {
-	border-radius:4px;
-}
-
-
-
-.info .artist {
-	font-weight: bold;
-}
-.info .name {
-
-}
 .info .name::before {
 	content: '"';
 }
 .info .name::after {
 	content: '"';
 }
-.info .album {
-	color:rgb(100, 100, 100);
-	font-weight:lighter;
-	font-style: italic;
+.info .artist {
+	font-weight: bolder;
 }
+.info .album {
+	font-style: oblique;
+}
+/*.list-group-item.active {
+	background-color:red;
+}*/

@@ -26,7 +26,9 @@ router.get('/:name/:artist/:album', (req, res) => {
 			artist: req.params.artist,
 			album: req.params.album
 		},
-		video: {}
+		video: {},
+		// save the index taht we are saving so we can ask to try again, getting the next result
+		index: 0,
 	};
 
 

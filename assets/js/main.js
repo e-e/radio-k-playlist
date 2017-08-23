@@ -14,14 +14,26 @@ function run() {
 			listDate: "",
 			songs: [],
 			songIndex: 0,
+			currentSong: {
+				name: "",
+				artist: "",
+				album: "",
+			},
 			videoUrl: "",
+			iframeRatio: (300 / 169),
+			iframeWidth: 300,
+			iframeHeight: 169,
+			resizeCounter: 0,
+			resizeLimit: 5,
 		},
 		created() {
 			let today = new Date();
 			// this.listDate = `${today.getMonth() + 1}/${today.getDate()}/${today.getFullYear()}`;
 			// DEBUG ONLY
 			this.listDate = `${today.getMonth() + 1}/${today.getDate() - 1}/${today.getFullYear()}`;
-			this.checkAndLoad();
+			this.checkDateAndLoad();
+			let iframeWrap = document.querySelector(".iframe-wrap");
+			window.addEventListener("resize", this.calculateIframeWidth.bind(this));
 		},
 		methods: {
 			get(url) {
@@ -46,11 +58,26 @@ function run() {
 						}
 					};
 					ajax.open("POST", url, true);
-					// ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
-					// ajax.send(vm.toParamStr(data));
 					ajax.setRequestHeader("Content-Type", "application/json");
 					ajax.send(JSON.stringify(data));
 				});
+			},
+			calculateIframeWidth(e) {
+				if (!this.showVideo) {
+					return;
+				}
+				// console.log(e, wrap);
+				this.resizeCounter++;
+				if (e.forceResize || this.resizeCounter > this.resizeLimit) {
+					let wrap = document.querySelector(".iframe-wrap");
+					this.resizeCounter = 0;
+
+					let width = wrap.offsetWidth;
+					let height = Math.floor(width / this.iframeRatio);
+					this.iframeWidth = width;
+					this.iframeHeight = height;
+					console.log("width: ", width);
+				}
 			},
 			toParamStr(obj) {
 				let paramStr = Object.keys(obj).reduce((str, key) => {
@@ -89,6 +116,7 @@ function run() {
 					console.log("youtube search: ", data);
 					let videoUrl = `https://www.youtube.com/embed/${data.id.videoId}`;
 					this.videoUrl = videoUrl;
+					this.calculateIframeWidth({forceResize: true});
 				}).catch(err => console.log("trouble getting youtube search...", err));
 			},
 			nextSong() {
@@ -97,7 +125,7 @@ function run() {
 				this.songIndex = nextIndex;
 				this.loadVideo(song, this.songIndex);
 			},
-			checkAndLoad() {
+			checkDateAndLoad() {
 				this.loading = true;
 				let val = this.listDate;
 				if (this.isValidDate(val)) {
@@ -107,30 +135,42 @@ function run() {
 						this.songs = data;
 						this.loading = false;
 
-
+						this.loadVideo(this.songs[this.songIndex], this.songIndex);
 					}).catch(err => console.log("trouble getting songs", err));
 				}
 			},
 			closePlayer() {
 
+			},
+			pad(n, mask, padWith = 0) {
+				const l = mask.length;
+				padWith = padWith.toString();
+				n = n.toString();
+				while (n.length < l) n = `${padWith}${n}`;
+				return n;
+			},
+			prettyTime(time) {
+				if (!time.trim().length) return "";
+				let parts = time.split(":");
+				let hour = parseInt(parts[0], 10);
+				let minute = parseInt(parts[1], 10);
+				let ampm = "am";
+				if (hour >= 12) {
+					ampm = "pm";
+					if (hour > 12) {
+						hour = hour % 12;
+					}
+				}
+				return `${this.pad(hour, "00", 0)}:${this.pad(minute, "00", 0)} ${ampm}`;
 			}
 		},
-		watch: {
-			/*listDate: function(val) {
-				if (this.isValidDate(val)) {
-					this.get(`/songs/${this.dateForUrl(val)}`).then(res => {
-
-						let data = JSON.parse(res.responseText);
-						this.songs = data;
-
-
-					}).catch(err => console.log("trouble getting songs", err));
-				}
-			}*/
-		},
+		watch: {},
 		computed: {
 			showVideo() {
 				return !!this.videoUrl.length;
+			},
+			playlistUrl() {
+				return `http://www.radiok.org/playlist?date=${encodeURIComponent(this.listDate)}`;
 			}
 		}
 	})

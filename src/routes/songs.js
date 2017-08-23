@@ -30,7 +30,7 @@ router.get('/:date', (req, res) => {
 				data += chunk;
 			});
 			http_res.on('end', function() {
-				let songs = playlistParser.getSongs(data);
+				let songs = playlistParser.songs(data);
 				res.json(songs);
 			});
 		});
@@ -56,7 +56,8 @@ router.get('/:date', (req, res) => {
 						data += chunk;
 					});
 					http_res.on('end', function() {
-						let songs = playlistParser.getSongs(data);
+						let songs = playlistParser.songs(data);
+						// songs = songs.filter(song => song.time.trim().length);
 						utils.log('writing cache file');
 						fs.writeFile(cachePath, JSON.stringify(songs), 'utf8', function(err) {
 							utils.log('wrote cache file');
