@@ -19,8 +19,7 @@ const routes = {
 };
 
 
-// app.use('/assets', express.static(path.join(__dirname, './assets')));
-app.use('/radio-k/assets', express.static(path.join(__dirname, './assets')));
+app.use('/assets', express.static(path.join(__dirname, './assets')));
 
 // routes
 app.use('/songs', routes.songs);
