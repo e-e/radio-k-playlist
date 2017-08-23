@@ -11,7 +11,7 @@ const config = require('../../config');
 const Result = require("../Result");
 
 const jsonParser = bodyParser.json();
-const songCachePath = path.join(config.basePath, './cache/songs.json');
+const songCachePath = path.join(config.basepath, './cache/songs.json');
 const router = express.Router();
 
 

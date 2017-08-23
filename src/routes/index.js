@@ -7,7 +7,7 @@ const express = require('express');
 const router = express.Router();
 
 router.get('/', (req, res) => {
-	fs.readFile(path.join(config.basePath, './views/index.html'), 'utf8', (err, html) => {
+	fs.readFile(path.join(config.basepath, './views/index.html'), 'utf8', (err, html) => {
 		if (err) throw err;
 		else {
 			res.send(html);

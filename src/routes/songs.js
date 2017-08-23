@@ -20,7 +20,7 @@ router.get('/:date', (req, res) => {
 		path: `/playlist/?date=${req.params.date.replace(/_/g, '%2F')}`
 	};
 	let today = utils.getDate();
-	let cachePath = path.join(config.basePath, `./cache/${req.params.date}.json`);
+	let cachePath = path.join(config.basepath, `./cache/${req.params.date}.json`);
 
 	if (req.params.date === today) {
 		utils.log('is today');
