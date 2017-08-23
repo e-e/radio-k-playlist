@@ -24,9 +24,17 @@ body {
 	border:1px solid rgba(100, 100, 100, 0.3);
 }
 
-.list ul li .played-at {
+/*.list ul li .played-at {
 	padding:10px;
 	border-bottom:1px dotted rgba(100, 100, 100, 0.3);
+}*/
+.list ul li {
+	position: relative;
+}
+.list ul li .played-at {
+	position: absolute;
+	top: 5px;
+	right:5px;
 }
 .list ul li .info {
 	padding:10px;

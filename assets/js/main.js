@@ -1,5 +1,5 @@
 /*todo
-	+	check for cached song youtube info ("/song/:name/:artist/:album") before asking youtube for it
+
 */
 
 
@@ -10,6 +10,7 @@ function run() {
 	const app = new Vue({
 		el: '#app',
 		data: {
+			loading: true,
 			listDate: "",
 			songs: [],
 			songIndex: 0,
@@ -20,6 +21,7 @@ function run() {
 			// this.listDate = `${today.getMonth() + 1}/${today.getDate()}/${today.getFullYear()}`;
 			// DEBUG ONLY
 			this.listDate = `${today.getMonth() + 1}/${today.getDate() - 1}/${today.getFullYear()}`;
+			this.checkAndLoad();
 		},
 		methods: {
 			get(url) {
@@ -57,11 +59,6 @@ function run() {
 				console.log("param string: ", paramStr);
 				return paramStr;
 			},
-			saveSongInfo(info) {
-				this.post("/song", info).then(response => {
-					console.log("saved song info");
-				}).catch(err => console.log("trouble saving song youtube info...", err));
-			},
 			dateForUrl(val) {
 				return val.replace(/\//g, "_");
 			},
@@ -86,16 +83,12 @@ function run() {
 			// https://www.youtube.com/embed/s-5dsCJNCxg
 			loadVideo(song, index) {
 				this.songIndex = index;
-				let url = `https://www.googleapis.com/youtube/v3/search?part=snippet&key=${youtubeAPIKey}&q=${encodeURIComponent(`${song.name} ${song.artist}`)}`;
+				let url = `/song/${song.name}/${song.artist}/${song.album}`;
 				this.get(url).then(response => {
 					let data = JSON.parse(response.responseText);
 					console.log("youtube search: ", data);
-					let video = data.items[0];
-					let videoUrl = `https://www.youtube.com/embed/${video.id.videoId}`;
+					let videoUrl = `https://www.youtube.com/embed/${data.id.videoId}`;
 					this.videoUrl = videoUrl;
-					this.saveSongInfo({song, video});
-
-
 				}).catch(err => console.log("trouble getting youtube search...", err));
 			},
 			nextSong() {
@@ -103,10 +96,27 @@ function run() {
 				let song = this.songs[nextIndex];
 				this.songIndex = nextIndex;
 				this.loadVideo(song, this.songIndex);
+			},
+			checkAndLoad() {
+				this.loading = true;
+				let val = this.listDate;
+				if (this.isValidDate(val)) {
+					this.get(`/songs/${this.dateForUrl(val)}`).then(res => {
+
+						let data = JSON.parse(res.responseText);
+						this.songs = data;
+						this.loading = false;
+
+
+					}).catch(err => console.log("trouble getting songs", err));
+				}
+			},
+			closePlayer() {
+
 			}
 		},
 		watch: {
-			listDate: function(val) {
+			/*listDate: function(val) {
 				if (this.isValidDate(val)) {
 					this.get(`/songs/${this.dateForUrl(val)}`).then(res => {
 
@@ -116,7 +126,7 @@ function run() {
 
 					}).catch(err => console.log("trouble getting songs", err));
 				}
-			}
+			}*/
 		},
 		computed: {
 			showVideo() {

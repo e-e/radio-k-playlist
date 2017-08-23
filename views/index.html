@@ -1,37 +1,47 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>radio-k</title>
 	<link rel="stylesheet" type="text/css" href="/assets/css/main.css">
 </head>
 <body>
 <div id="app" v-cloak>
 	<form>
-		<input v-model="listDate"><span>{{ songIndex }}</span>
+		<input v-model="listDate">
+		<button @click="checkAndLoad">&#8635;</button>
 	</form>
-	<div id="player" v-show="showVideo">
-		<div id="close-wrap">
-			<button id="close">close</button>
+	<div v-if="loading">
+		LOADING...
+	</div>
+	<div v-else="">
+		<div id="player" v-show="showVideo">
+			<div id="close-wrap">
+				<button id="close" @click="closePlayer">close</button>
+			</div>
+			<iframe width="300" height="169" :src="videoUrl" frameborder="0" allowfullscreen></iframe>
+			<div id="controls">
+				<button id="prev">prev</button>
+				<button id="playpause">play</button>
+				<button id="next" @click="nextSong">next</button>
+			</div>
 		</div>
-		<iframe width="300" height="169" :src="videoUrl" frameborder="0" allowfullscreen></iframe>
-		<div id="controls">
-			<button id="prev">prev</button>
-			<button id="playpause">play</button>
-			<button id="next" @click="nextSong">next</button>
+		<div class="list">
+			<ul v-for="(song, index) in songs">
+				<li @click="loadVideo(song, index)">
+					<div class="info-wrap">
+						<div class="played-at">{{ song.time }}</div>
+						<div class="info">
+							<div class="artist">{{ song.artist }}</div>
+							<div class="name">{{ song.name }}</div>
+							<div class="album">{{ song.album }}</div>
+						</div>
+					</div>
+				</li>
+			</ul>
 		</div>
 	</div>
-	<div class="list">
-		<ul v-for="(song, index) in songs">
-			<li @click="loadVideo(song, index)">
-				<div class="played-at">{{ song.time }}</div>
-				<div class="info">
-					<div class="artist">{{ song.artist }}</div>
-					<div class="name">{{ song.name }}</div>
-					<div class="album">{{ song.album }}</div>
-				</div>
-			</li>
-		</ul>
-	</div>
+		
 </div>
 <script src="https://apis.google.com/js/api.js"></script>
 <script src="/assets/js/vue.js"></script>
