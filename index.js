@@ -9,6 +9,7 @@ const fs = require('fs');
 const express = require('express');
 
 const utils = require('./src/utils');
+const config = require('./config');
 
 const app = express();
 const routes = {
@@ -18,7 +19,8 @@ const routes = {
 };
 
 
-app.use('/assets', express.static(path.join(__dirname, './assets')), );
+// app.use('/assets', express.static(path.join(__dirname, './assets')));
+app.use('/radio-k/assets', express.static(path.join(__dirname, './assets')));
 
 // routes
 app.use('/songs', routes.songs);
@@ -26,7 +28,7 @@ app.use('/song', routes.song);
 app.use('/', routes.index);
 
 function start() {
-	app.listen(8888, () => console.log('listening on http://localhost:8888/'));
+	app.listen(config.port, () => utils.log(`listening on http://localhost:${config.port}/`));
 }
 
 // make sure we have a cache file for song data
