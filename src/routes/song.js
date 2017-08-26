@@ -30,7 +30,13 @@ function logResponse(response) {
 router.get('/:name/:artist/:album', (req, res) => {
 	utils.log(`getting song info for [${req.params.name} - ${req.params.artist} - ${req.params.album}]`);
 
-	let uri = `https://www.googleapis.com/youtube/v3/search?part=snippet&key=${config.youtubeAPIKey}&q=${encodeURIComponent(`${req.params.name} ${req.params.artist} ${req.params.album}`)}`;
+	let options = {
+		url: `https://www.googleapis.com/youtube/v3/search?part=snippet&key=${config.youtubeAPIKey}&q=${encodeURIComponent(`${req.params.name} ${req.params.artist} ${req.params.album}`)}`,
+		headers: {
+			"Referer": config.referer
+		}
+	};
+	let 
 	let songKey = utils.getSongHash(req.params.name, req.params.artist, req.params.album);
 	let song = {
 		song: {
@@ -57,7 +63,7 @@ router.get('/:name/:artist/:album', (req, res) => {
 			return res.json(songs[songKey].video);
 		}
 		// otherwise, get the info from youtube
-		request(uri, (err, response, body) => {
+		request(options, (err, response, body) => {
 			if (err) {
 				utils.log(err);
 				return;
