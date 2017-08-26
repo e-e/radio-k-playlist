@@ -51,16 +51,20 @@ router.get('/:name/:artist/:album', (req, res) => {
 				return;
 			}
 			let data = JSON.parse(body);
-			song.video = data.items[0];
-			res.json(song.video);
-			songs[songKey] = song;
-			fs.writeFile(songCachePath, JSON.stringify(songs), "utf8", (err) => {
-				if (err) {
-					utils.log(`Trouble writing cache file for [${req.params.name} - ${req.params.artist} - ${req.params.album}]`);
-					return;
-				}
-				utils.log(`Wrote cache for [${req.params.name} - ${req.params.artist} - ${req.params.album}]`);
-			});
+			if (data.items && data.items.length) {
+				song.video = data.items[0];
+				res.json(song.video);
+				songs[songKey] = song;
+				fs.writeFile(songCachePath, JSON.stringify(songs), "utf8", (err) => {
+					if (err) {
+						utils.log(`Trouble writing cache file for [${req.params.name} - ${req.params.artist} - ${req.params.album}]`);
+						return;
+					}
+					utils.log(`Wrote cache for [${req.params.name} - ${req.params.artist} - ${req.params.album}]`);
+				});
+			} else {
+				res.json({});
+			}
 		});
 
 	});
