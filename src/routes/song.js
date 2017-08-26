@@ -13,7 +13,19 @@ const Result = require("../Result");
 const jsonParser = bodyParser.json();
 const songCachePath = path.join(config.basepath, './cache/songs.json');
 const router = express.Router();
+const responseLogPath = path.join(config.basepath, "./logs/yt-response.log");
 
+
+function logResponse(response) {
+	let str = typeof response === "string" ? response : JSON.stringify(response);
+	fs.appendFile(responseLogPath, str + "\n", (err) => {
+		if (err) {
+			if (config.env === "dev") {
+				console.log("logResponse(): ", err);
+			}
+		}
+	});
+}
 
 router.get('/:name/:artist/:album', (req, res) => {
 	utils.log(`getting song info for [${req.params.name} - ${req.params.artist} - ${req.params.album}]`);
@@ -49,6 +61,9 @@ router.get('/:name/:artist/:album', (req, res) => {
 			if (err) {
 				utils.log(err);
 				return;
+			}
+			if (config.env === "dev") {
+				logResponse(body);
 			}
 			let data = JSON.parse(body);
 			if (data.items && data.items.length) {
