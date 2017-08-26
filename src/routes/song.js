@@ -36,7 +36,6 @@ router.get('/:name/:artist/:album', (req, res) => {
 			"Referer": config.referer
 		}
 	};
-	let 
 	let songKey = utils.getSongHash(req.params.name, req.params.artist, req.params.album);
 	let song = {
 		song: {
