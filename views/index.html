@@ -9,16 +9,13 @@
 <body>
 <div id="app" v-cloak>
 	<div class="container">
-		
-		<div v-if="loading">
-			LOADING...
-		</div>
+		<div v-if="loading">LOADING...</div>
 		<div v-else="">
+			<div class="row">&nbsp;</div>
 			<div class="row">
 				<div class="col-xs-12 col-lg-7" style="margin-top:5px;">
-					<div class="iframe-wrap card" id="player" v-show="showVideo">
-						<iframe :width="iframeWidth" :height="iframeHeight" :src="videoUrl" frameborder="0" allowfullscreen></iframe>
-					</div>
+					<h1>{{ currentSong.name }}</h1>
+					<h2>{{ currentSong.artist }}</h2>
 				</div>
 				<div class="col-xs-12 col-lg-5">
 					<div class="row" style="margin-bottom:8px;">
@@ -32,6 +29,15 @@
 							</div>
 						</form>
 					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12 col-lg-7" style="margin-top:5px;">
+					<div class="iframe-wrap card" id="player" v-show="showVideo">
+						<iframe :width="iframeWidth" :height="iframeHeight" :src="videoUrl" frameborder="0" allowfullscreen></iframe>
+					</div>
+				</div>
+				<div class="col-xs-12 col-lg-5">
 					<div class="song-list list-group">
 						<div class="list-group-item" v-for="(song, index) in songs" @click="loadVideo(song, index)" :class="{ 'list-group-item-success': songIndex === index }">
 							<span class="badge">{{ prettyTime(song.time) }}</span>

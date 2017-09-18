@@ -63,6 +63,7 @@ function run() {
 				});
 			},
 			calculateIframeWidth(e) {
+				console.log("showVideo? ", this.showVideo);
 				if (!this.showVideo) {
 					return;
 				}
@@ -76,7 +77,9 @@ function run() {
 					let height = Math.floor(width / this.iframeRatio);
 					this.iframeWidth = width;
 					this.iframeHeight = height;
-					console.log("width: ", width);
+					if (!width) {
+						setTimeout(this.calculateIframeWidth.bind(this, e), 100);
+					}
 				}
 			},
 			toParamStr(obj) {
@@ -116,6 +119,7 @@ function run() {
 					console.log("youtube search: ", data);
 					let videoUrl = `https://www.youtube.com/embed/${data.id.videoId}`;
 					this.videoUrl = videoUrl;
+					console.log("setting song... ", this.videoUrl);
 					this.calculateIframeWidth({forceResize: true});
 				}).catch(err => console.log("trouble getting youtube search...", err));
 			},
