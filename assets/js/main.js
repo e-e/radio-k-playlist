@@ -115,12 +115,17 @@ function run() {
 				this.songIndex = index;
 				let url = `/song/${song.name}/${song.artist}/${song.album}`;
 				this.get(url).then(response => {
-					let data = JSON.parse(response.responseText);
-					console.log("youtube search: ", data);
-					let videoUrl = `https://www.youtube.com/embed/${data.id.videoId}`;
-					this.videoUrl = videoUrl;
-					console.log("setting song... ", this.videoUrl);
-					this.calculateIframeWidth({forceResize: true});
+					try {
+						let data = JSON.parse(response.responseText);
+						console.log("youtube search: ", data);
+						let videoUrl = `https://www.youtube.com/embed/${data.id.videoId}`;
+						this.videoUrl = videoUrl;
+						console.log("setting song... ", this.videoUrl);
+						this.calculateIframeWidth({forceResize: true});
+					} catch(ex) {
+						console.log(ex, "data: ", data)
+					}
+						
 				}).catch(err => console.log("trouble getting youtube search...", err));
 			},
 			nextSong() {
