@@ -38,14 +38,19 @@ function run() {
 		methods: {
 			get(url) {
 				return new Promise((resolve, reject) => {
-					let ajax = new XMLHttpRequest();
-					ajax.onreadystatechange = function() {
-						if (this.readyState === 4) {
-							resolve(this);
-						}
-					};
-					ajax.open("GET", url, true);
-					ajax.send(null);
+					try {
+						let ajax = new XMLHttpRequest();
+						ajax.onreadystatechange = function() {
+							if (this.readyState === 4) {
+								resolve(this);
+							}
+						};
+						ajax.open("GET", url, true);
+						ajax.send(null);
+					} catch (ex) {
+						console.log("ex: ", ex);
+						reject("uh oh!");
+					}	
 				});
 			},
 			post(url, data) {
